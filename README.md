@@ -1,24 +1,5 @@
-# README
+Simple Rails app to automate download video from arlo for personal use.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The only thing this app does is login to Arlo, get a list of today's videos and download to laptop. No UI yet.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Need to export ARLO_USERNAME and ARLO_PASSWORD in your local environments, then run rake daily_download
