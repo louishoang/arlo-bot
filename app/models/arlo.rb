@@ -32,15 +32,18 @@ class Arlo
     json(response: response)['data'].map { |item| MotionRecord.new(data: item) }.select(&:valid?)
   end
 
-  def download(record)
+  def download(record:, time_frame: '')
     response = RestClient.get(record.content_url)
 
     raise ArloException::ClientApiError unless response.code == 200
 
-    directory = find_or_create_today_folder
+    directory = find_or_create_folder(time_frame: time_frame)
     file = Rails.root.join(directory, "#{record.name}.mp4")
 
-    return 'File existed' if File.exist?(file)
+    if File.exist?(file)
+      puts 'File existed'
+      return
+    end
 
     File.open(file, 'w') do |f|
       f.write response.body.force_encoding('utf-8')
