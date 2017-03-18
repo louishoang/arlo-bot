@@ -17,4 +17,11 @@ class MotionRecord
   def valid?
     @content_type == 'video/mp4' && content_url.present?
   end
+
+  def humanized_file_name
+    time = Time.at(name.to_i / 1000)
+    time.to_s(:time_extended).tr(':', '-')
+  rescue
+    name
+  end
 end

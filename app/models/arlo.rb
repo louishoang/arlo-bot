@@ -38,7 +38,7 @@ class Arlo
     raise ArloException::ClientApiError unless response.code == 200
 
     directory = find_or_create_folder(time_frame: record.created_date)
-    file = Rails.root.join(directory, "#{record.name}.mp4")
+    file = Rails.root.join(directory, "#{record.humanized_file_name}.mp4")
 
     if File.exist?(file)
       puts 'File existed'
