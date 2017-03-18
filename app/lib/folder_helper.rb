@@ -1,7 +1,6 @@
 module FolderHelper
-  def find_or_create_folder(time_frame: nil)
-    directory_name = time_frame || DateTime.now.to_s(:extended)
-    name = Rails.root.join('public', 'videos', directory_name)
+  def find_or_create_folder(time_frame:)
+    name = Rails.root.join('public', 'videos', time_frame)
     Dir.mkdir(name) unless directory_exists?(name)
     name
   end

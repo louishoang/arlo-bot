@@ -32,12 +32,12 @@ class Arlo
     json(response: response)['data'].map { |item| MotionRecord.new(data: item) }.select(&:valid?)
   end
 
-  def download(record:, time_frame: '')
+  def download(record:)
     response = RestClient.get(record.content_url)
 
     raise ArloException::ClientApiError unless response.code == 200
 
-    directory = find_or_create_folder(time_frame: time_frame)
+    directory = find_or_create_folder(time_frame: record.created_date)
     file = Rails.root.join(directory, "#{record.name}.mp4")
 
     if File.exist?(file)
