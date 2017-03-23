@@ -1,7 +1,7 @@
 desc 'Daily download all videos from Arlo account'
 
 def ask_for_date
-  input = nil
+  input = ENV['OPTION'] || nil
 
   while !input.in? %w(1 2)
     puts 'Please choose date:'
