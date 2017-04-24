@@ -20,7 +20,8 @@ class MotionRecord
 
   def humanized_file_name
     time = Time.at(name.to_i / 1000)
-    time.to_s(:time_extended).tr(':', '-')
+    time = time.to_s(:time_extended).tr(':', '-')
+    "#{time}_#{device_id}"
   rescue
     name
   end
