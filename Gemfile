@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 
 #HTTP client
-gem 'rest-client'
+gem 'rest-client', '~> 2.0.2'
 # Cron job
 gem 'whenever', :require => false
 
