@@ -31,15 +31,32 @@ task :download_yesterday_videos => :environment do
   counts = video_list.size
 
   puts "There are #{counts} videos in this period"
+  count = 0
 
-  video_list.each_with_index do |video, index|
-    puts "#{index + 1}/#{counts} Downloading video: #{video.name}"
+  # Create 4 threads at a time to speed up downloading.
+  # Caveat: Logging download progress looks a little weird
+  # because thread doesn't maintain order in each group.
 
-    arlo.download(record: video)
+  video_list.in_groups_of(4) do |group|
+    threads = []
 
-    puts "Succesfully download video #{video.name}"
-    puts '################'
-    2.times { puts '' }
+    group.each_with_index do |video, index|
+      next unless video.present?
+
+      #Create a new thread for each video
+      threads << Thread.new do
+        puts "#{count + index + 1}/#{counts} Downloading video: #{video.name}"
+
+        arlo.download(record: video)
+
+        puts "Succesfully download video #{video.name}"
+        puts '################'
+        2.times { puts '' }
+      end
+    end
+
+    threads.each { |thr| thr.join }
+    count += 4
   end
 
   puts "Done for the day, phewww!!!"
